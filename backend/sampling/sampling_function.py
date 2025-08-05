@@ -343,15 +343,8 @@ def sampling_function(self, denoiser_params, cond_scale, cond_composition):
         if image_cond_in.shape[0] == x.shape[0] \
                 and image_cond_in.shape[2] == x.shape[2] \
                 and image_cond_in.shape[3] == x.shape[3]:
-            # Check if this is a Flux model - Flux models don't use c_concat conditioning
-            # Access the diffusion engine through the model's forge_objects
-            diffusion_engine = getattr(model, 'forge_objects', None)
-            if diffusion_engine is not None:
-                diffusion_engine = getattr(diffusion_engine, 'unet', None)
-                if diffusion_engine is not None:
-                    diffusion_engine = getattr(diffusion_engine, 'model', None)
-            
-            # Check if it's a Flux model by looking for Flux-specific attributes
+            # Check if it's a Flux model - Flux models don't use c_concat conditioning
+            # Flux models have a unique inner_forward method signature
             is_flux_model = hasattr(model, 'diffusion_model') and hasattr(model.diffusion_model, 'inner_forward')
             
             if not is_flux_model:
