@@ -13,8 +13,6 @@ from backend import memory_management
 class Chroma(ForgeDiffusionEngine):
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
-        # Chroma models support inpainting through proper conditioning
-        self.is_inpaint = True
 
         clip = CLIP(
             model_dict={
