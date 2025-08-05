@@ -26,8 +26,9 @@ class ForgeDiffusionEngine:
     def __init__(self, estimated_config, huggingface_components):
         self.model_config = estimated_config
         # Try to call inpaint_model() method, fallback to checking for inpainting capability
-        if hasattr(estimated_config, 'inpaint_model'):
-            self.is_inpaint = estimated_config.inpaint_model()
+        inpaint_fn = getattr(estimated_config, 'inpaint_model', None)
+        if callable(inpaint_fn):
+            self.is_inpaint = inpaint_fn()
         else:
             # For modern models like Flux, SD3.5, etc., assume inpainting support
             # since they can handle inpainting through proper conditioning
