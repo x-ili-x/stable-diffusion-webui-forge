@@ -27,7 +27,8 @@ class StableDiffusion3(ForgeDiffusionEngine):
 
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
-        self.is_inpaint = False
+        # SD3.5 models support inpainting through proper conditioning
+        self.is_inpaint = True
 
         clip = CLIP(
             model_dict={

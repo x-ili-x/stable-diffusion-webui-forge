@@ -17,7 +17,8 @@ class Flux(ForgeDiffusionEngine):
 
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
-        self.is_inpaint = False
+        # Flux models support inpainting through proper conditioning
+        self.is_inpaint = True
 
         clip = CLIP(
             model_dict={
