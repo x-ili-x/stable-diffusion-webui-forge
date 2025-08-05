@@ -1463,7 +1463,10 @@ class StableDiffusionProcessingTxt2Img(StableDiffusionProcessing):
 
             # Avoid making the inpainting conditioning unless necessary as
             # this does need some extra compute to decode / encode the image again.
-            if getattr(self, "inpainting_mask_weight", shared.opts.inpainting_mask_weight) < 1.0:
+            if getattr(self.sd_model, 'supports_image_conditioning', False):
+                # Modern models (Flux, SD3.5, Chroma) always need proper image conditioning for highres fix
+                image_conditioning = self.img2img_image_conditioning(decode_first_stage(self.sd_model, samples), samples)
+            elif getattr(self, "inpainting_mask_weight", shared.opts.inpainting_mask_weight) < 1.0:
                 image_conditioning = self.img2img_image_conditioning(decode_first_stage(self.sd_model, samples), samples)
             else:
                 image_conditioning = self.txt2img_image_conditioning(samples)
