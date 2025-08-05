@@ -14,6 +14,7 @@ class Chroma(ForgeDiffusionEngine):
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
         # Chroma models support img2img/inpainting through proper conditioning
+        self.is_inpaint = False  # Avoid txt2img shape mismatch
         self.supports_image_conditioning = True
 
         clip = CLIP(

@@ -363,11 +363,8 @@ class StableDiffusionProcessing:
         # if self.sd_model.cond_stage_key == "edit":
         #     return self.edit_image_conditioning(source_image)
 
-        if self.sd_model.is_inpaint:
-            return self.inpainting_image_conditioning(source_image, latent_image, image_mask=image_mask, round_image_mask=round_image_mask)
-
-        # Check for modern models that support img2img/inpainting through proper conditioning
-        if getattr(self.sd_model, 'supports_image_conditioning', False):
+        # Check for models that need proper image conditioning (inpaint models or modern models)
+        if self.sd_model.is_inpaint or getattr(self.sd_model, 'supports_image_conditioning', False):
             return self.inpainting_image_conditioning(source_image, latent_image, image_mask=image_mask, round_image_mask=round_image_mask)
 
         # if self.sampler.conditioning_key == "crossattn-adm":
