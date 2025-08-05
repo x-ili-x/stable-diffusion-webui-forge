@@ -25,7 +25,7 @@ class ForgeDiffusionEngine:
 
     def __init__(self, estimated_config, huggingface_components):
         self.model_config = estimated_config
-        self.is_inpaint = estimated_config.inpaint_model()
+        self.is_inpaint = getattr(estimated_config, 'inpaint_model', lambda: True)()
 
         self.forge_objects = None
         self.forge_objects_original = None
