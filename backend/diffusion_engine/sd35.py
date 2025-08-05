@@ -27,6 +27,8 @@ class StableDiffusion3(ForgeDiffusionEngine):
 
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
+        # SD3.5 models support img2img/inpainting through proper conditioning
+        self.supports_image_conditioning = True
 
         clip = CLIP(
             model_dict={

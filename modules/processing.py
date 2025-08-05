@@ -366,11 +366,8 @@ class StableDiffusionProcessing:
         if self.sd_model.is_inpaint:
             return self.inpainting_image_conditioning(source_image, latent_image, image_mask=image_mask, round_image_mask=round_image_mask)
 
-        # Check for modern models that support inpainting through conditioning (Flux, SD3.5, Chroma)
-        from backend.diffusion_engine.flux import Flux
-        from backend.diffusion_engine.sd35 import StableDiffusion3
-        from backend.diffusion_engine.chroma import Chroma
-        if isinstance(self.sd_model, (Flux, StableDiffusion3, Chroma)):
+        # Check for modern models that support img2img/inpainting through proper conditioning
+        if getattr(self.sd_model, 'supports_image_conditioning', False):
             return self.inpainting_image_conditioning(source_image, latent_image, image_mask=image_mask, round_image_mask=round_image_mask)
 
         # if self.sampler.conditioning_key == "crossattn-adm":

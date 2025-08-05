@@ -17,6 +17,8 @@ class Flux(ForgeDiffusionEngine):
 
     def __init__(self, estimated_config, huggingface_components):
         super().__init__(estimated_config, huggingface_components)
+        # Flux models support img2img/inpainting through proper conditioning
+        self.supports_image_conditioning = True
 
         clip = CLIP(
             model_dict={

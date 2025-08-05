@@ -39,6 +39,9 @@ class ForgeDiffusionEngine:
         self.forge_objects_after_applying_lora = None
 
         self.current_lora_hash = str([])
+        
+        # Flag for modern models that support img2img/inpainting through proper conditioning
+        self.supports_image_conditioning = False
 
         self.fix_for_webui_backward_compatibility()
 
